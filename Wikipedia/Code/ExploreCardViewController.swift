@@ -596,14 +596,14 @@ extension ExploreCardViewController: AnnouncementCollectionViewCellDelegate {
             wmf_showLoginViewController(theme: theme)
             LoginFunnel.shared.logLoginStartInFeed()
             dismissAnnouncementCell(cell)
-        case .notification:
-            dataStore.notificationsController.requestAuthenticationIfNecessary { (granted, error) in
-                if let error = error {
-                    self.wmf_showAlertWithError(error as NSError)
-                }
-            }
-            UserDefaults.standard.wmf_setInTheNewsNotificationsEnabled(true)
-            dismissAnnouncementCell(cell)
+//        case .notification:
+//            dataStore.notificationsController.requestAuthenticationIfNecessary { (granted, error) in
+//                if let error = error {
+//                    self.wmf_showAlertWithError(error as NSError)
+//                }
+//            }
+//            UserDefaults.standard.wmf_setInTheNewsNotificationsEnabled(true)
+//            dismissAnnouncementCell(cell)
         default:
             guard let announcement = contentGroup?.contentPreview as? WMFAnnouncement,
                 let url = announcement.actionURL else {

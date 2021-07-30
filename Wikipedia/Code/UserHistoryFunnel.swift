@@ -30,10 +30,10 @@ private typealias ContentGroupKindAndLoggingCode = (kind: WMFContentGroupKind, l
         let fontSize = UserDefaults.standard.wmf_articleFontSizeMultiplier().intValue
         let theme = userDefaults.themeAnalyticsName
         let isFeedDisabled = userDefaults.defaultTabType != .explore
-        let isNewsNotificationEnabled = UserDefaults.standard.wmf_inTheNewsNotificationsEnabled()
+        //let isNewsNotificationEnabled = UserDefaults.standard.wmf_inTheNewsNotificationsEnabled()
         let appOpensOnSearchTab = UserDefaults.standard.wmf_openAppOnSearchTab
 
-        var event: [String: Any] = ["primary_language": primaryLanguage(), "is_anon": isAnon, "measure_font_size": fontSize, "theme": theme, "feed_disabled": isFeedDisabled, "trend_notify": isNewsNotificationEnabled, "search_tab": appOpensOnSearchTab]
+        var event: [String: Any] = ["primary_language": primaryLanguage(), "is_anon": isAnon, "measure_font_size": fontSize, "theme": theme, "feed_disabled": isFeedDisabled, "trend_notify": false, "search_tab": appOpensOnSearchTab]
         
         let savedArticlesCount = dataStore.savedPageList.numberOfItems()
         event["measure_readinglist_itemcount"] = savedArticlesCount

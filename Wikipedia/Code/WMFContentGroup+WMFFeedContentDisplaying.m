@@ -159,8 +159,8 @@ NS_ASSUME_NONNULL_BEGIN
             return WMFFeedDisplayTypeStory;
         case WMFContentGroupKindOnThisDay:
             return WMFFeedDisplayTypeEvent;
-        case WMFContentGroupKindNotification:
-            return WMFFeedDisplayTypeNotification;
+//        case WMFContentGroupKindNotification:
+//            return WMFFeedDisplayTypeNotification;
         case WMFContentGroupKindTheme:
             return WMFFeedDisplayTypeTheme;
         case WMFContentGroupKindReadingList:
@@ -218,8 +218,8 @@ NS_ASSUME_NONNULL_BEGIN
             return YES;
         case WMFContentGroupKindOnThisDay:
             break;
-        case WMFContentGroupKindNotification:
-            return YES;
+//        case WMFContentGroupKindNotification:
+//            return YES;
         case WMFContentGroupKindTheme:
             return YES;
         case WMFContentGroupKindReadingList:
@@ -243,8 +243,8 @@ NS_ASSUME_NONNULL_BEGIN
             return WMFFeedDetailTypeStory;
         case WMFContentGroupKindOnThisDay:
             return WMFFeedDetailTypeEvent;
-        case WMFContentGroupKindNotification:
-            return WMFFeedDetailTypeNone;
+//        case WMFContentGroupKindNotification:
+//            return WMFFeedDetailTypeNone;
         case WMFContentGroupKindTheme:
             return WMFFeedDetailTypeNone;
         case WMFContentGroupKindReadingList:
@@ -338,8 +338,8 @@ NS_ASSUME_NONNULL_BEGIN
             break;
         case WMFContentGroupKindOnThisDay:
             break;
-        case WMFContentGroupKindNotification:
-            break;
+//        case WMFContentGroupKindNotification:
+//            break;
         case WMFContentGroupKindAnnouncement:
             break;
         case WMFContentGroupKindUnknown:
@@ -351,8 +351,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (WMFFeedHeaderType)headerType {
     switch (self.contentGroupKind) {
-        case WMFContentGroupKindNotification:
-            return WMFFeedHeaderTypeNone;
+//        case WMFContentGroupKindNotification:
+//            return WMFFeedHeaderTypeNone;
         case WMFContentGroupKindTheme:
             return WMFFeedHeaderTypeNone;
         case WMFContentGroupKindReadingList:

@@ -6,14 +6,14 @@
 @class WMFArticle;
 @class WMFExploreFeedContentController;
 @class WMFReadingListsController;
-@class RemoteNotificationsController;
+//@class RemoteNotificationsController;
 @class WMFArticleSummaryController;
 @class MobileviewToMobileHTMLConverter;
 @class MWKLanguageLinkController;
 @class WMFSession;
 @class WMFConfiguration;
 @class WMFPermanentCacheController;
-@class WMFNotificationsController;
+//@class WMFNotificationsController;
 @class WMFAuthenticationManager;
 @class WMFABTestsController;
 
@@ -82,10 +82,10 @@ typedef NS_OPTIONS(NSUInteger, RemoteConfigOption) {
 @property (readonly, strong, nonatomic) MWKSavedPageList *savedPageList;
 @property (readonly, strong, nonatomic) MWKRecentSearchList *recentSearchList;
 @property (readonly, strong, nonatomic) WMFReadingListsController *readingListsController;
-@property (readonly, strong, nonatomic) RemoteNotificationsController *remoteNotificationsController;
+//@property (readonly, strong, nonatomic) RemoteNotificationsController *remoteNotificationsController;
 @property (readonly, strong, nonatomic) WMFArticleSummaryController *articleSummaryController;
 @property (readonly, strong, nonatomic) MWKLanguageLinkController *languageLinkController;
-@property (readonly, strong, nonatomic) WMFNotificationsController *notificationsController;
+//@property (readonly, strong, nonatomic) WMFNotificationsController *notificationsController;
 
 @property (nonatomic, strong, readonly) NSManagedObjectContext *viewContext;
 @property (nonatomic, strong, readonly) NSManagedObjectContext *feedImportContext;

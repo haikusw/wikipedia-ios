@@ -82,7 +82,7 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
 
 @property (nonatomic, strong) NSMutableDictionary *backgroundTasks;
 
-@property (nonatomic, strong) WMFNotificationsController *notificationsController;
+//@property (nonatomic, strong) WMFNotificationsController *notificationsController;
 
 @property (nonatomic, getter=isWaitingToResumeApp) BOOL waitingToResumeApp;
 @property (nonatomic, getter=isMigrationComplete) BOOL migrationComplete;
@@ -91,7 +91,7 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
 
 @property (nonatomic, getter=isCheckingRemoteConfig) BOOL checkingRemoteConfig;
 
-@property (nonatomic, copy) NSDictionary *notificationUserInfoToShow;
+//@property (nonatomic, copy) NSDictionary *notificationUserInfoToShow;
 
 @property (nonatomic, strong) WMFTheme *theme;
 
@@ -105,7 +105,7 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
 
 @property (nonatomic) BOOL hasSyncErrorBeenShownThisSesssion;
 
-@property (nonatomic, strong) RemoteNotificationsModelChangeResponseCoordinator *remoteNotificationsModelChangeResponseCoordinator;
+//@property (nonatomic, strong) RemoteNotificationsModelChangeResponseCoordinator *remoteNotificationsModelChangeResponseCoordinator;
 
 @property (nonatomic, strong) WMFReadingListHintController *readingListHintController;
 @property (nonatomic, strong) WMFEditHintController *editHintController;
@@ -206,10 +206,10 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
                                                  name:WMFExploreFeedPreferencesDidChangeNotification
                                                object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(remoteNotificationsModelDidChange:)
-                                                 name:[RemoteNotificationsModelControllerNotification modelDidChange]
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(remoteNotificationsModelDidChange:)
+//                                                 name:[RemoteNotificationsModelControllerNotification modelDidChange]
+//                                               object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userWasLoggedOut:)
@@ -270,14 +270,14 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
     self.periodicWorkerController = [[WMFPeriodicWorkerController alloc] initWithInterval:30 initialDelay:1 leeway:15];
     self.periodicWorkerController.delegate = self;
     [self.periodicWorkerController add:self.dataStore.readingListsController];
-    [self.periodicWorkerController add:self.dataStore.remoteNotificationsController];
+    //[self.periodicWorkerController add:self.dataStore.remoteNotificationsController];
     [self.periodicWorkerController add:[WMFEventLoggingService sharedInstance]];
     [self.periodicWorkerController add:[WMFEventPlatformClient sharedInstance]];
 
     self.backgroundFetcherController = [[WMFBackgroundFetcherController alloc] init];
     self.backgroundFetcherController.delegate = self;
     [self.backgroundFetcherController add:self.dataStore.readingListsController];
-    [self.backgroundFetcherController add:self.dataStore.remoteNotificationsController];
+    //[self.backgroundFetcherController add:self.dataStore.remoteNotificationsController];
     [self.backgroundFetcherController add:(id<WMFBackgroundFetcher>)self.dataStore.feedContentController];
     [self.backgroundFetcherController add:[WMFEventLoggingService sharedInstance]];
     [self.backgroundFetcherController add:[WMFEventPlatformClient sharedInstance]];
@@ -303,7 +303,7 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
     UITabBarItem *savedTabBarItem = [self.savedViewController tabBarItem];
     self.savedTabBarItemProgressBadgeManager = [[SavedTabBarItemProgressBadgeManager alloc] initWithTabBarItem:savedTabBarItem];
 
-    [self.dataStore.notificationsController updateCategories];
+    //[self.dataStore.notificationsController updateCategories];
 }
 
 - (void)configureTabController {
@@ -362,7 +362,7 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
     [self.periodicWorkerController start];
     [self.savedArticlesFetcher start];
     [self.mobileViewToMobileHTMLMigrationController start];
-    self.notificationsController.applicationActive = YES;
+    //self.notificationsController.applicationActive = YES;
 }
 
 - (void)performTasksThatShouldOccurAfterAnnouncementsUpdated {
@@ -824,12 +824,13 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
             });
         };
 
-        if (self.notificationUserInfoToShow) {
-            [self hideSplashViewAnimated:!didShowOnboarding];
-            [self showInTheNewsForNotificationInfo:self.notificationUserInfoToShow];
-            self.notificationUserInfoToShow = nil;
-            done();
-        } else if (self.unprocessedUserActivity) {
+//        if (self.notificationUserInfoToShow) {
+//            [self hideSplashViewAnimated:!didShowOnboarding];
+//            [self showInTheNewsForNotificationInfo:self.notificationUserInfoToShow];
+//            self.notificationUserInfoToShow = nil;
+//            done();
+//        } else
+        if (self.unprocessedUserActivity) {
             [self processUserActivity:self.unprocessedUserActivity
                              animated:NO
                            completion:^{
@@ -970,7 +971,7 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
 
     [[NSUserDefaults standardUserDefaults] wmf_setDidShowSyncDisabledPanel:NO];
 
-    self.notificationsController.applicationActive = NO;
+    //self.notificationsController.applicationActive = NO;
     [self.reachabilityNotifier stop];
     [self.periodicWorkerController stop];
     [self.savedArticlesFetcher stop];
@@ -1351,11 +1352,11 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
     }
 }
 
-- (WMFNotificationsController *)notificationsController {
-    WMFNotificationsController *controller = self.dataStore.notificationsController;
-    controller.applicationActive = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
-    return controller;
-}
+//- (WMFNotificationsController *)notificationsController {
+//    WMFNotificationsController *controller = self.dataStore.notificationsController;
+//    controller.applicationActive = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
+//    return controller;
+//}
 
 - (MWKDataStore *)dataStore {
     return MWKDataStore.shared;
@@ -1626,82 +1627,86 @@ static NSString *const WMFDidShowOnboarding = @"DidShowOnboarding5.3";
 
 // The method will be called on the delegate only if the application is in the foreground. If the method is not implemented or the handler is not called in a timely manner then the notification will not be presented. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. This decision should be based on whether the information in the notification is otherwise visible to the user.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    
+//    completionHandler(UNNotificationPresentationOptionAlert);
+//    UNNotificationContent *notificationContent = notification.request.content;
+//    NSString *categoryIdentifier = notificationContent.categoryIdentifier;
+//    NSString *notificationID = (NSString *)notificationContent.userInfo[WMFEditRevertedNotificationIDKey];
+//    if ([categoryIdentifier isEqualToString:WMFEditRevertedNotificationCategoryIdentifier]) {
+//        [self.remoteNotificationsModelChangeResponseCoordinator markAsSeenNotificationWithID:notificationID];
+//    }
+    
     completionHandler(UNNotificationPresentationOptionAlert);
-    UNNotificationContent *notificationContent = notification.request.content;
-    NSString *categoryIdentifier = notificationContent.categoryIdentifier;
-    NSString *notificationID = (NSString *)notificationContent.userInfo[WMFEditRevertedNotificationIDKey];
-    if ([categoryIdentifier isEqualToString:WMFEditRevertedNotificationCategoryIdentifier]) {
-        [self.remoteNotificationsModelChangeResponseCoordinator markAsSeenNotificationWithID:notificationID];
-    }
 }
 
 // The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a UNNotificationAction. The delegate must be set before the application returns from applicationDidFinishLaunching:.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
-    NSString *categoryIdentifier = response.notification.request.content.categoryIdentifier;
-    NSString *actionIdentifier = response.actionIdentifier;
-
-    if ([categoryIdentifier isEqualToString:WMFInTheNewsNotificationCategoryIdentifier]) {
-        NSDictionary *info = response.notification.request.content.userInfo;
-        NSString *articleURLString = info[WMFNotificationInfoArticleURLStringKey];
-        NSURL *articleURL = [NSURL URLWithString:articleURLString];
-        if ([actionIdentifier isEqualToString:WMFInTheNewsNotificationShareActionIdentifier]) {
-            WMFArticleViewController *articleVC = [self showArticleWithURL:articleURL animated:NO];
-            [articleVC shareArticleWhenReady];
-        } else if ([actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
-            [self showInTheNewsForNotificationInfo:info];
-        } else if ([actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) {
-        }
-        // WMFEditRevertedNotification
-    } else if ([categoryIdentifier isEqualToString:WMFEditRevertedNotificationCategoryIdentifier]) {
-        NSDictionary *info = response.notification.request.content.userInfo;
-        NSString *articleURLString = (NSString *)info[WMFNotificationInfoArticleURLStringKey];
-        NSString *notificationID = (NSString *)info[WMFEditRevertedNotificationIDKey];
-        assert(articleURLString);
-        assert(notificationID);
-        if ([actionIdentifier isEqualToString:WMFEditRevertedReadMoreActionIdentifier] || [actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
-            NSURL *articleURL = [NSURL URLWithString:articleURLString];
-            assert(articleURL);
-            [self showReadMoreAboutRevertedEditViewControllerWithArticleURL:articleURL
-                                                                 completion:^{
-                                                                     [self.remoteNotificationsModelChangeResponseCoordinator markAsReadNotificationWithID:notificationID];
-                                                                 }];
-        } else {
-            [self.remoteNotificationsModelChangeResponseCoordinator markAsReadNotificationWithID:notificationID];
-        }
-    }
+    
+//    NSString *categoryIdentifier = response.notification.request.content.categoryIdentifier;
+//    NSString *actionIdentifier = response.actionIdentifier;
+//
+//    if ([categoryIdentifier isEqualToString:WMFInTheNewsNotificationCategoryIdentifier]) {
+//        NSDictionary *info = response.notification.request.content.userInfo;
+//        NSString *articleURLString = info[WMFNotificationInfoArticleURLStringKey];
+//        NSURL *articleURL = [NSURL URLWithString:articleURLString];
+//        if ([actionIdentifier isEqualToString:WMFInTheNewsNotificationShareActionIdentifier]) {
+//            WMFArticleViewController *articleVC = [self showArticleWithURL:articleURL animated:NO];
+//            [articleVC shareArticleWhenReady];
+//        } else if ([actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
+//            [self showInTheNewsForNotificationInfo:info];
+//        } else if ([actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) {
+//        }
+//        // WMFEditRevertedNotification
+//    } else if ([categoryIdentifier isEqualToString:WMFEditRevertedNotificationCategoryIdentifier]) {
+//        NSDictionary *info = response.notification.request.content.userInfo;
+//        NSString *articleURLString = (NSString *)info[WMFNotificationInfoArticleURLStringKey];
+//        NSString *notificationID = (NSString *)info[WMFEditRevertedNotificationIDKey];
+//        assert(articleURLString);
+//        assert(notificationID);
+//        if ([actionIdentifier isEqualToString:WMFEditRevertedReadMoreActionIdentifier] || [actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
+//            NSURL *articleURL = [NSURL URLWithString:articleURLString];
+//            assert(articleURL);
+//            [self showReadMoreAboutRevertedEditViewControllerWithArticleURL:articleURL
+//                                                                 completion:^{
+//                                                                     [self.remoteNotificationsModelChangeResponseCoordinator markAsReadNotificationWithID:notificationID];
+//                                                                 }];
+//        } else {
+//            [self.remoteNotificationsModelChangeResponseCoordinator markAsReadNotificationWithID:notificationID];
+//        }
+//    }
 
     completionHandler();
 }
 
-- (void)showInTheNewsForNotificationInfo:(NSDictionary *)info {
-    if (!self.isMigrationComplete) {
-        self.notificationUserInfoToShow = info;
-        return;
-    }
-    NSString *articleURLString = info[WMFNotificationInfoArticleURLStringKey];
-    NSURL *articleURL = [NSURL URLWithString:articleURLString];
-    NSDictionary *JSONDictionary = info[WMFNotificationInfoFeedNewsStoryKey];
-    NSError *JSONError = nil;
-    WMFFeedNewsStory *feedNewsStory = [MTLJSONAdapter modelOfClass:[WMFFeedNewsStory class] fromJSONDictionary:JSONDictionary languageVariantCode:nil error:&JSONError];
-    if (!feedNewsStory || JSONError) {
-        DDLogError(@"Error parsing feed news story: %@", JSONError);
-        [self showArticleWithURL:articleURL animated:NO];
-        return;
-    }
-    [self dismissPresentedViewControllers];
-
-    if (!feedNewsStory) {
-        return;
-    }
-
-    UIViewController *vc = [[WMFNewsViewController alloc] initWithStories:@[feedNewsStory] dataStore:self.dataStore contentGroup:nil theme:self.theme];
-    if (!vc) {
-        return;
-    }
-
-    [self.navigationController popToRootViewControllerAnimated:NO];
-    [self.navigationController pushViewController:vc animated:NO];
-}
+//- (void)showInTheNewsForNotificationInfo:(NSDictionary *)info {
+//    if (!self.isMigrationComplete) {
+//        self.notificationUserInfoToShow = info;
+//        return;
+//    }
+//    NSString *articleURLString = info[WMFNotificationInfoArticleURLStringKey];
+//    NSURL *articleURL = [NSURL URLWithString:articleURLString];
+//    NSDictionary *JSONDictionary = info[WMFNotificationInfoFeedNewsStoryKey];
+//    NSError *JSONError = nil;
+//    WMFFeedNewsStory *feedNewsStory = [MTLJSONAdapter modelOfClass:[WMFFeedNewsStory class] fromJSONDictionary:JSONDictionary languageVariantCode:nil error:&JSONError];
+//    if (!feedNewsStory || JSONError) {
+//        DDLogError(@"Error parsing feed news story: %@", JSONError);
+//        [self showArticleWithURL:articleURL animated:NO];
+//        return;
+//    }
+//    [self dismissPresentedViewControllers];
+//
+//    if (!feedNewsStory) {
+//        return;
+//    }
+//
+//    UIViewController *vc = [[WMFNewsViewController alloc] initWithStories:@[feedNewsStory] dataStore:self.dataStore contentGroup:nil theme:self.theme];
+//    if (!vc) {
+//        return;
+//    }
+//
+//    [self.navigationController popToRootViewControllerAnimated:NO];
+//    [self.navigationController pushViewController:vc animated:NO];
+//}
 
 #pragma mark - Themeable
 
@@ -2023,48 +2028,48 @@ static NSString *const WMFDidShowOnboarding = @"DidShowOnboarding5.3";
 
 #pragma mark - Remote Notifications
 
-- (void)remoteNotificationsModelDidChange:(NSNotification *)note {
-    self.remoteNotificationsModelChangeResponseCoordinator = (RemoteNotificationsModelChangeResponseCoordinator *)note.object;
-    assert(self.remoteNotificationsModelChangeResponseCoordinator);
-    RemoteNotificationsModelChange *modelChange = (RemoteNotificationsModelChange *)self.remoteNotificationsModelChangeResponseCoordinator.modelChange;
-    NSDictionary<NSNumber *, NSArray<RemoteNotification *> *> *notificationsGroupedByCategoryNumber = (NSDictionary<NSNumber *, NSArray<RemoteNotification *> *> *)modelChange.notificationsGroupedByCategoryNumber;
-    assert(modelChange);
-    switch (modelChange.type) {
-        case RemoteNotificationsModelChangeTypeAddedNewNotifications:
-        case RemoteNotificationsModelChangeTypeUpdatedExistingNotifications:
-            [self scheduleLocalNotificationsForRemoteNotificationsWithCategory:RemoteNotificationCategoryEditReverted notificationsGroupedByCategoryNumber:notificationsGroupedByCategoryNumber];
-        default:
-            break;
-    }
-}
+//- (void)remoteNotificationsModelDidChange:(NSNotification *)note {
+//    self.remoteNotificationsModelChangeResponseCoordinator = (RemoteNotificationsModelChangeResponseCoordinator *)note.object;
+//    assert(self.remoteNotificationsModelChangeResponseCoordinator);
+//    RemoteNotificationsModelChange *modelChange = (RemoteNotificationsModelChange *)self.remoteNotificationsModelChangeResponseCoordinator.modelChange;
+//    NSDictionary<NSNumber *, NSArray<RemoteNotification *> *> *notificationsGroupedByCategoryNumber = (NSDictionary<NSNumber *, NSArray<RemoteNotification *> *> *)modelChange.notificationsGroupedByCategoryNumber;
+//    assert(modelChange);
+//    switch (modelChange.type) {
+//        case RemoteNotificationsModelChangeTypeAddedNewNotifications:
+//        case RemoteNotificationsModelChangeTypeUpdatedExistingNotifications:
+//            [self scheduleLocalNotificationsForRemoteNotificationsWithCategory:RemoteNotificationCategoryEditReverted notificationsGroupedByCategoryNumber:notificationsGroupedByCategoryNumber];
+//        default:
+//            break;
+//    }
+//}
 
-- (void)scheduleLocalNotificationsForRemoteNotificationsWithCategory:(RemoteNotificationCategory)category notificationsGroupedByCategoryNumber:(NSDictionary<NSNumber *, NSArray<RemoteNotification *> *> *)notificationsGroupedByCategoryNumber {
-    NSAssert(category == RemoteNotificationCategoryEditReverted, @"Categories other than RemoteNotificationCategoryEditReverted are not supported");
-
-    NSNumber *editRevertedCategoryNumber = [NSNumber numberWithInt:RemoteNotificationCategoryEditReverted];
-    NSArray<RemoteNotification *> *editRevertedNotifications = notificationsGroupedByCategoryNumber[editRevertedCategoryNumber];
-    if (editRevertedNotifications.count == 0) {
-        return;
-    }
-
-    for (RemoteNotification *editRevertedNotification in editRevertedNotifications) {
-        WMFArticle *article = [self.dataStore fetchArticleWithWikidataID:editRevertedNotification.affectedPageID];
-        if (!article || !article.displayTitle || !article.URL || !editRevertedNotification.agent) {
-            // Exclude notifications without article context or notification agent
-            [self.remoteNotificationsModelChangeResponseCoordinator markAsExcluded:editRevertedNotification];
-        } else {
-            NSString *articleTitle = article.displayTitle;
-            NSString *agent = editRevertedNotification.agent;
-
-            NSString *notificationTitle = [WMFCommonStrings revertedEditTitle];
-            NSString *notificationBodyFormat = WMFLocalizedStringWithDefaultValue(@"reverted-edit-notification-body", nil, nil, @"The edit you made of the article %1$@ was reverted by %2$@", @"Title for notification telling user that the edit they made was reverted. %1$@ is replaced with the title of the affected article, %2$@ is replaced with the username of the person who reverted the edit.");
-            NSString *notificationBody = [NSString localizedStringWithFormat:notificationBodyFormat, articleTitle, agent];
-
-            NSDictionary *userInfo = @{WMFNotificationInfoArticleURLStringKey: article.URL.absoluteString, WMFEditRevertedNotificationIDKey: editRevertedNotification.id};
-            [self.notificationsController sendNotificationWithTitle:notificationTitle body:notificationBody categoryIdentifier:WMFEditRevertedNotificationCategoryIdentifier userInfo:userInfo atDateComponents:nil];
-        }
-    }
-}
+//- (void)scheduleLocalNotificationsForRemoteNotificationsWithCategory:(RemoteNotificationCategory)category notificationsGroupedByCategoryNumber:(NSDictionary<NSNumber *, NSArray<RemoteNotification *> *> *)notificationsGroupedByCategoryNumber {
+//    NSAssert(category == RemoteNotificationCategoryEditReverted, @"Categories other than RemoteNotificationCategoryEditReverted are not supported");
+//
+//    NSNumber *editRevertedCategoryNumber = [NSNumber numberWithInt:RemoteNotificationCategoryEditReverted];
+//    NSArray<RemoteNotification *> *editRevertedNotifications = notificationsGroupedByCategoryNumber[editRevertedCategoryNumber];
+//    if (editRevertedNotifications.count == 0) {
+//        return;
+//    }
+//
+//    for (RemoteNotification *editRevertedNotification in editRevertedNotifications) {
+//        WMFArticle *article = [self.dataStore fetchArticleWithWikidataID:editRevertedNotification.affectedPageID];
+//        if (!article || !article.displayTitle || !article.URL || !editRevertedNotification.agent) {
+//            // Exclude notifications without article context or notification agent
+//            [self.remoteNotificationsModelChangeResponseCoordinator markAsExcluded:editRevertedNotification];
+//        } else {
+//            NSString *articleTitle = article.displayTitle;
+//            NSString *agent = editRevertedNotification.agent;
+//
+//            NSString *notificationTitle = [WMFCommonStrings revertedEditTitle];
+//            NSString *notificationBodyFormat = WMFLocalizedStringWithDefaultValue(@"reverted-edit-notification-body", nil, nil, @"The edit you made of the article %1$@ was reverted by %2$@", @"Title for notification telling user that the edit they made was reverted. %1$@ is replaced with the title of the affected article, %2$@ is replaced with the username of the person who reverted the edit.");
+//            NSString *notificationBody = [NSString localizedStringWithFormat:notificationBodyFormat, articleTitle, agent];
+//
+//            NSDictionary *userInfo = @{WMFNotificationInfoArticleURLStringKey: article.URL.absoluteString, WMFEditRevertedNotificationIDKey: editRevertedNotification.id};
+//            [self.notificationsController sendNotificationWithTitle:notificationTitle body:notificationBody categoryIdentifier:WMFEditRevertedNotificationCategoryIdentifier userInfo:userInfo atDateComponents:nil];
+//        }
+//    }
+//}
 
 - (void)showReadMoreAboutRevertedEditViewControllerWithArticleURL:(NSURL *)articleURL completion:(void (^)(void))completion {
     ReadMoreAboutRevertedEditViewController *readMoreViewController = [[ReadMoreAboutRevertedEditViewController alloc] initWithNibName:@"ReadMoreAboutRevertedEditViewController" bundle:nil];

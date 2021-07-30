@@ -40,10 +40,10 @@ NSString *MWKCreateImageURLWithPath(NSString *path) {
 
 @property (nonatomic, strong) WMFReadingListsController *readingListsController;
 @property (nonatomic, strong) WMFExploreFeedContentController *feedContentController;
-@property (nonatomic, strong) RemoteNotificationsController *remoteNotificationsController;
+//@property (nonatomic, strong) RemoteNotificationsController *remoteNotificationsController;
 @property (nonatomic, strong) WMFArticleSummaryController *articleSummaryController;
 @property (nonatomic, strong) MWKLanguageLinkController *languageLinkController;
-@property (nonatomic, strong) WMFNotificationsController *notificationsController;
+//@property (nonatomic, strong) WMFNotificationsController *notificationsController;
 
 @property (nonatomic, strong) MobileviewToMobileHTMLConverter *mobileviewConverter;
 
@@ -116,8 +116,8 @@ NSString *MWKCreateImageURLWithPath(NSString *path) {
         self.feedContentController = [[WMFExploreFeedContentController alloc] initWithDataStore:self];
         [self.feedContentController updateContentSources];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarningWithNotification:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-        self.remoteNotificationsController = [[RemoteNotificationsController alloc] initWithSession:session configuration:configuration preferredLanguageCodesProvider:self.languageLinkController];
-        self.notificationsController = [[WMFNotificationsController alloc] initWithDataStore:self];
+        //self.remoteNotificationsController = [[RemoteNotificationsController alloc] initWithSession:session configuration:configuration preferredLanguageCodesProvider:self.languageLinkController];
+        //self.notificationsController = [[WMFNotificationsController alloc] initWithDataStore:self];
         self.articleSummaryController = [[WMFArticleSummaryController alloc] initWithSession:session configuration:configuration dataStore:self];
         self.mobileviewConverter = [[MobileviewToMobileHTMLConverter alloc] init];
     }

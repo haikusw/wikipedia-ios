@@ -64,20 +64,21 @@ class NotificationSettingsViewController: SubSettingsViewController {
         updatedSections.append(infoSection)
         
         let notificationSettingsItems: [NotificationSettingsItem] = [NotificationSettingsSwitchItem(title: WMFLocalizedString("settings-notifications-trending", value:"Trending current events", comment:"Title for the setting for trending notifications"), switchChecker: { () -> Bool in
-            return UserDefaults.standard.wmf_inTheNewsNotificationsEnabled()
+                return false
+                //return UserDefaults.standard.wmf_inTheNewsNotificationsEnabled()
             }, switchAction: { [weak self] (isOn) in
                 //This (and everything else that references UNUserNotificationCenter in this class) should be moved into WMFNotificationsController
                 if (isOn) {
                     // SINGLETONTODO
-                    MWKDataStore.shared().notificationsController.requestAuthenticationIfNecessary(completionHandler: { [weak self] (granted, error) in
-                        if let error = error as NSError? {
-                            self?.wmf_showAlertWithError(error)
-                        }
-                    })
+//                    MWKDataStore.shared().notificationsController.requestAuthenticationIfNecessary(completionHandler: { [weak self] (granted, error) in
+//                        if let error = error as NSError? {
+//                            self?.wmf_showAlertWithError(error)
+//                        }
+//                    })
                 } else {
                     UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                 }
-                UserDefaults.standard.wmf_setInTheNewsNotificationsEnabled(isOn)
+                //UserDefaults.standard.wmf_setInTheNewsNotificationsEnabled(isOn)
         })]
         let notificationSettingsSection = NotificationSettingsSection(headerTitle: WMFLocalizedString("settings-notifications-push-notifications", value:"Push notifications", comment:"A title for a list of Push notifications"), items: notificationSettingsItems)
         
